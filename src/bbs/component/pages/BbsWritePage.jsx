@@ -42,18 +42,20 @@ function BbsWritePage(props) {
     }
     const submitHandler = async() => {
         const data = {
-            "id" : Date.now(),
-            "title" : {title},
-            "content" : {content}
+            id : Date.now(),
+            title : title,
+            content : content
         }
         try{
             const response = await axios.post("http://localhost:8000/bbs",data);
             console.log(response.data);
+            alert("글 작성 완료하고 홈으로 이동합니다.");
+            navigate("/");
         } catch (error) {
             console.log(error);
         }
         
-        navigate("/");
+        
     }
     return(
         <Wrapper>
