@@ -20,10 +20,10 @@ const TitleText = styled.p`
     font-weight: 500;
 `;
 
-function BbsItem({ title }) { 
+function BbsItem(props) { 
     return (
         <Wrapper>
-            <TitleText>{title}</TitleText>
+            <TitleText>{props.title}</TitleText>
         </Wrapper>
     );
 }

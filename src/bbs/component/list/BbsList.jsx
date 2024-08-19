@@ -14,11 +14,11 @@ const Wrapper = styled.div`
     }
 `;
 
-function BbsList({ data }) { 
+function BbsList(props) { 
     return (
         <Wrapper>
-            {data.map(item => (
-                <BbsItem key={item.id} title={item.title} /> // 각 항목을 BbsItem으로 전달
+            {props.data.map((bbs) => (
+                <BbsItem key={bbs.id} title={bbs.title} /> // 각 항목을 BbsItem으로 전달
             ))}
         </Wrapper>
     );
