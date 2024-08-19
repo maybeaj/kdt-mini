@@ -18,7 +18,7 @@ function BbsList(props) {
     return (
         <Wrapper>
             {props.data.map((bbs) => (
-                <BbsItem key={bbs.id} title={bbs.title} /> // 각 항목을 BbsItem으로 전달
+                <BbsItem key={bbs.id} title={bbs.title} />
             ))}
         </Wrapper>
     );

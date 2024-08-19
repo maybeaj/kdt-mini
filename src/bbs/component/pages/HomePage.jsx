@@ -48,6 +48,7 @@ function HomePage() {
                     onClick={()=>{
                         navigate("bbs-write");
                     }} />
+                    <p/>
                 <BbsList data={list}/>
             </Container>
         </Wrapper>
