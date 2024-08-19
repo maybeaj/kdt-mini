@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Button from '../ui/Button';
 import { useNavigate } from 'react-router-dom';
+import BbsList from '../list/BbsList';
+import axios from 'axios';
 
 const Wrapper = styled.div`
     padding: 16px;
@@ -21,8 +23,22 @@ const Container = styled.div`
     }
 `;
 function HomePage() {
-
+    const [list, setList] = useState([]);
+    
     const navigate = useNavigate();
+
+    useEffect(()=>{
+        getList();
+    },[]);
+
+    const getList = async () => {
+        try {
+            const response = await axios.get("http://localhost:8000/bbs");
+            setList(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     return (
         <Wrapper>
@@ -32,6 +48,7 @@ function HomePage() {
                     onClick={()=>{
                         navigate("bbs-write");
                     }} />
+                <BbsList data={list}/>
             </Container>
         </Wrapper>
     );
