@@ -22,7 +22,7 @@ const ContentText = styled.p`
 function CommentItem(props){
     return(
         <Wrapper>
-            <ContentText>{props.data.content}</ContentText>
+            <ContentText>{props.data}</ContentText>
         </Wrapper>
     );
 }
