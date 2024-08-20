@@ -4,6 +4,7 @@ import { useState, useEffect} from 'react';
 import Button from '../ui/Button';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import isEqual from 'lodash.isequal'; 
 
 const Wrapper = styled.div`
     padding: 16px;
@@ -34,13 +35,13 @@ function BbsUpdatePage(props) {
     const titleHandler = (e) => {
         const newTitle = e.target.value;
         setTitle(newTitle);
-        setIsModified(newTitle !== originalData.title || content !== originalData.content);
+        setIsModified(!isEqual({ title: newTitle, content }, originalData));
     }
     
     const contentHandler = (e) => {
         const newContent = e.target.value;
         setContent(newContent);
-        setIsModified(title !== originalData.title || newContent !== originalData.content);
+        setIsModified(!isEqual({ title, content: newContent }, originalData));
     }
 
     const navigate = useNavigate();
