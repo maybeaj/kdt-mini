@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useNavigate } from 'react-router-dom';
 
 const Wrapper = styled.div`
     width: calc(100% - 32px);
@@ -21,9 +22,13 @@ const TitleText = styled.p`
 `;
 
 function BbsItem(props) { 
+    const navigate = useNavigate();
+    const moveHandler = () => {
+        navigate(`bbs-view/${props.data.id}`);
+    }
     return (
-        <Wrapper>
-            <TitleText>{props.title}</TitleText>
+        <Wrapper onClick={moveHandler}>
+            <TitleText>{props.data.title}</TitleText>
         </Wrapper>
     );
 }
