@@ -4,7 +4,6 @@ import { useState, useEffect} from 'react';
 import Button from '../ui/Button';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-//import isEqual from 'lodash';
 
 const Wrapper = styled.div`
     padding: 16px;
@@ -28,15 +27,22 @@ function BbsUpdatePage(props) {
     const { id } = useParams();
     const [ title, setTitle ] = useState('');
     const [ content, setContent ] = useState('');
+    const [originalData, setOriginalData] = useState({ title: '', content: '' });
+    const [isModified, setIsModified] = useState(false); 
 
 
     const titleHandler = (e) => {
-        setTitle(e.target.value);
+        const newTitle = e.target.value;
+        setTitle(newTitle);
+        setIsModified(newTitle !== originalData.title || content !== originalData.content);
+    }
+    
+    const contentHandler = (e) => {
+        const newContent = e.target.value;
+        setContent(newContent);
+        setIsModified(title !== originalData.title || newContent !== originalData.content);
     }
 
-    const contentHandler = (e) => {
-        setContent(e.target.value);
-    }
     const navigate = useNavigate();
 
     const cancelHandler = () => {
@@ -62,6 +68,7 @@ function BbsUpdatePage(props) {
             const response = await axios.get(`http://localhost:8000/bbs/${id}`);
             setTitle(response.data.title);
             setContent(response.data.content);
+            setOriginalData({ title: response.data.title, content: response.data.content });
         } catch (error) {
             console.error(error);
         }
@@ -86,7 +93,7 @@ function BbsUpdatePage(props) {
                     value={content}
                     onChange={contentHandler}/>
                 </label>
-                <Button title="글 수정 하기" onClick={submitHandler}>
+                <Button title="글 수정 하기" onClick={submitHandler} disabled={!isModified}>
                 </Button>
                 &nbsp; &nbsp; &nbsp;
                 <Button title="글 수정 취소" onClick={cancelHandler}>
