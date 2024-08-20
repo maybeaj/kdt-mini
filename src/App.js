@@ -4,6 +4,7 @@ import { BrowserRouter,Route,Routes } from 'react-router-dom';
 import HomePage from './bbs/component/pages/HomePage';
 import BbsWriter from './bbs/component/pages/BbsWritePage';
 import BbsViewPage from './bbs/component/pages/BbsViewPage';
+import BbsUpdatePage from './bbs/component/pages/BbsUpdatePage';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/" element={ <HomePage /> }></Route>
         <Route path="/bbs-write" element={ <BbsWriter /> }></Route>
         <Route path="/bbs-view/:id" element={ <BbsViewPage /> }></Route>
+        <Route path="/bbs-update/:id" element={ <BbsUpdatePage /> }></Route>
       </Routes>
     </BrowserRouter>
   );

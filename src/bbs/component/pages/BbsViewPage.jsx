@@ -73,6 +73,9 @@ function BbsViewPage(props) {
         }
     };
 	const postComment = async () => {
+        if(!comment){
+            alert('타임라인을 작성해 주세요!!');
+        } else {
         const data = {
             id : Date.now(),
             content : comment,
@@ -87,8 +90,21 @@ function BbsViewPage(props) {
 		} catch (error) {
 			console.error(error);
 		}
+    }
 	};
-
+    const updateHandler = (bbsId) => {
+        navigate(`/bbs-update/${bbsId}`);
+    }
+    const removeBbs = async (bbsId) => {
+        try {
+			const response = await axios.delete(`http://localhost:8000/bbs/${bbsId}`);
+            console.log(response.data);
+            alert("게시글 삭제되었습니다.");
+            moveToHome();
+		} catch (error) {
+			console.error(error);
+		}
+    }
 	return (
 		<Wrapper>
 			<Container>
@@ -97,6 +113,9 @@ function BbsViewPage(props) {
 				<PostContainer>
 					<TitleText>{bbs.title}</TitleText>
 					<ContentText>{bbs.content}</ContentText>
+                    <Button title="게시글 수정하기" onClick={()=>updateHandler(bbs.id)}/>
+                    &nbsp;&nbsp;
+                    <Button title="게시글 삭제하기" onClick={()=>removeBbs(bbs.id)}/>
 				</PostContainer>
 
 				<CommentLabel>타임라인</CommentLabel>
