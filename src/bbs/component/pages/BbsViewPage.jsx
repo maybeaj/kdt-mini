@@ -1,45 +1,114 @@
 import styled from "styled-components";
+import Button from "../ui/Button";
+import { useParams, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import TextInput from "../ui/TextInput";
+import CommentList from "../list/CommentList";
 
 const Wrapper = styled.div`
-    padding: 16px;
-    width: calc(100% - 32px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+	padding: 16px;
+	width: calc(100% - 32px);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 `;
 const Container = styled.div`
-    width: 100%;
-    max-width: 720px;
-    & > * {
-        :not(:last-child) {
-            margin-bottom: 16px;
-        }
-    }
+	width: 100%;
+	max-width: 720px;
+	& > * {
+		:not(:last-child) {
+			margin-bottom: 16px;
+		}
+	}
 `;
 const PostContainer = styled.div`
-    padding: 8px 16px;
-    border: 1px solid grey;
-    border-radius: 8px;
+	padding: 8px 16px;
+	border: 1px solid grey;
+	border-radius: 8px;
 `;
 const TitleText = styled.p`
-    font-size: 28px;
-    font-weight: 500;
+	font-size: 28px;
+	font-weight: 500;
 `;
 const ContentText = styled.p`
-    font-size: 20px;
-    line-height: 32px;
-    white-space: pre-wrap;
+	font-size: 20px;
+	line-height: 32px;
+	white-space: pre-wrap;
 `;
 const CommentLabel = styled.p`
-    font-size: 16px;
-    font-weight: 500;
+	font-size: 16px;
+	font-weight: 500;
 `;
 
 function BbsViewPage(props) {
-    return (
-        <div align="center">게시글 상세보기 페이지</div>
-    );
+	const { id } = useParams();
+	const navigate = useNavigate();
+	const [bbs, setBbs] = useState({});
+	const [comment, setComment] = useState("");
+    const [comList, setComList] = useState([]);
+	const moveToHome = () => {
+		navigate("/");
+	};
+	useEffect(() => {
+		getBbs();
+        getComList();
+	}, []);
+
+	const getBbs = async () => {
+		try {
+			const response = await axios.get(`http://localhost:8000/bbs/${id}`);
+			setBbs(response.data);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+    const getComList = async () => {
+        try {
+            const response = await axios.get(`http://localhost:8000/comments?bbsId=${id}`);
+            setComList(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+	const postComment = async () => {
+        const data = {
+            id : Date.now(),
+            content : comment,
+            bbsId: id
+        }
+		try {
+			const response = await axios.post(`http://localhost:8000/comments`,data);
+            console.log(response.data);
+            alert("comment 작성완료");
+			setComment('');
+            getComList();
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	return (
+		<Wrapper>
+			<Container>
+				<Button title="뒤로가기" onClick={moveToHome}></Button>
+				<p />
+				<PostContainer>
+					<TitleText>{bbs.title}</TitleText>
+					<ContentText>{bbs.content}</ContentText>
+				</PostContainer>
+
+				<CommentLabel>타임라인</CommentLabel>
+				<TextInput height={15} value={comment} onChange={(e) => setComment(e.target.value)} />
+                    <p/>
+				<Button title="타임라인 등록하기" onClick={postComment} />
+				<p />
+                <CommentList data={comList}/>
+
+			</Container>
+		</Wrapper>
+	);
 }
 
-export default BbsViewPage ;
+export default BbsViewPage;
