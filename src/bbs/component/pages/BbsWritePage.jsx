@@ -3,7 +3,7 @@ import TextInput from '../ui/TextInput';
 import { useState } from 'react';
 import Button from '../ui/Button';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api/axios';
 
 const Wrapper = styled.div`
     padding: 16px;
@@ -47,7 +47,7 @@ function BbsWritePage(props) {
             content : content
         }
         try{
-            const response = await axios.post("http://localhost:8000/bbs",data);
+            const response = await api.post("bbs",data);
             console.log(response.data);
             alert("글 작성 완료하고 홈으로 이동합니다.");
             navigate("/");

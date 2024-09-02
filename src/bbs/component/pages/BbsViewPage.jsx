@@ -2,9 +2,9 @@ import styled from "styled-components";
 import Button from "../ui/Button";
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import TextInput from "../ui/TextInput";
 import CommentList from "../list/CommentList";
+import api from '../api/axios';
 
 const Wrapper = styled.div`
 	padding: 16px;
@@ -58,7 +58,7 @@ function BbsViewPage(props) {
 
 	const getBbs = async () => {
 		try {
-			const response = await axios.get(`http://localhost:8000/bbs/${id}`);
+			const response = await api.get(`bbs/${id}`);
 			setBbs(response.data);
 		} catch (error) {
 			console.error(error);
@@ -66,7 +66,7 @@ function BbsViewPage(props) {
 	};
     const getComList = async () => {
         try {
-            const response = await axios.get(`http://localhost:8000/comments?bbsId=${id}`);
+            const response = await api.get(`comments?bbsId=${id}`);
             setComList(response.data);
         } catch (error) {
             console.error(error);
@@ -82,7 +82,7 @@ function BbsViewPage(props) {
             bbsId: id
         }
 		try {
-			const response = await axios.post(`http://localhost:8000/comments`,data);
+			const response = await api.post(`comments`,data);
             console.log(response.data);
             alert("comment 작성완료");
 			setComment('');
@@ -97,7 +97,7 @@ function BbsViewPage(props) {
     }
     const removeBbs = async (bbsId) => {
         try {
-			const response = await axios.delete(`http://localhost:8000/bbs/${bbsId}`);
+			const response = await api.delete(`bbs/${bbsId}`);
             console.log(response.data);
             alert("게시글 삭제되었습니다.");
             moveToHome();

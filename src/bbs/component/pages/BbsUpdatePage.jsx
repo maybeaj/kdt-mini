@@ -3,7 +3,7 @@ import TextInput from '../ui/TextInput';
 import { useState, useEffect} from 'react';
 import Button from '../ui/Button';
 import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api/axios';
 import isEqual from 'lodash.isequal'; 
 
 const Wrapper = styled.div`
@@ -55,7 +55,7 @@ function BbsUpdatePage(props) {
         const updatedData = { title : title,
                             content : content};
         try{
-            const response = await axios.patch(`http://localhost:8000/bbs/${id}`,updatedData);
+            const response = await api.patch(`bbs/${id}`,updatedData);
             console.log(response.data);
             alert("글 수정 완료하고 홈으로 이동합니다.");
             navigate("/");
@@ -66,7 +66,7 @@ function BbsUpdatePage(props) {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get(`http://localhost:8000/bbs/${id}`);
+            const response = await api.get(`bbs/${id}`);
             setTitle(response.data.title);
             setContent(response.data.content);
             setOriginalData({ title: response.data.title, content: response.data.content });
