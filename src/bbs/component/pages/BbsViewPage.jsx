@@ -77,29 +77,74 @@ function BbsViewPage(props) {
 			console.error(error);
 		}
 	};
-    const getComList = async () => {
+	// json-server ver
+    // const getComList = async () => {
+    //     try {
+    //         const response = await api.get(`comments?bbsId=${id}`);
+    //         setComList(response.data);
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // };
+	// spring ver
+	const getComList = async () => {
         try {
-            const response = await api.get(`comments?bbsId=${id}`);
+			//pathvariable방식이아님 user endpoint : bbs/comment/getcomment
+			// (CommentRequestDTO params)
+            //const response = await api.get(`bbs/comment/getcomment?bbsid=${id}`);
+
+			// path variable 방식
+			// user endpoint : bbs/comment/getComment/3
+			// PathVariable(id="id") Integer id
+			// map.put("bbsid", id)
+			const response = await api.get(`bbs/comment/getComment/${id}`);
+			console.log("debug>>> axios comments get response data, ", response.data);
             setComList(response.data);
         } catch (error) {
             console.error(error);
         }
     };
+	//json-server version
+	// const postComment = async () => {
+    //     if(!comment){
+    //         alert('타임라인을 작성해 주세요!!');
+    //     } else {
+    //     const data = {
+    //         id : Date.now(),
+    //         content : comment,
+    //         bbsId: id
+    //     }
+	// 	try {
+	// 		const response = await api.post(`comments`,data);
+    //         console.log(response.data);
+    //         alert("comment 작성완료");
+	// 		setComment('');
+    //         getComList();
+	// 	} catch (error) {
+	// 		console.error(error);
+	// 	}
+    // }
+	// };
+	//spring ver
 	const postComment = async () => {
         if(!comment){
             alert('타임라인을 작성해 주세요!!');
         } else {
         const data = {
-            id : Date.now(),
             content : comment,
-            bbsId: id
+            bbsid : id
         }
 		try {
-			const response = await api.post(`comments`,data);
-            console.log(response.data);
-            alert("comment 작성완료");
-			setComment('');
-            getComList();
+			const response = await api.post(`bbs/comment/save`,data);
+            console.log("debug >> axios post response data, ",response);
+			console.log("debug >> axios post response data, ",response.status);
+			if (response.status == 204){
+				alert("comment 작성완료");
+				setComment('');
+				getComList();
+			} else {
+				alert(" 타임라인 등록 시 오류 발생!")
+			}
 		} catch (error) {
 			console.error(error);
 		}
@@ -108,12 +153,32 @@ function BbsViewPage(props) {
     const updateHandler = (bbsId) => {
         navigate(`/bbs-update/${bbsId}`);
     }
-    const removeBbs = async (bbsId) => {
+	//json-server ver
+    // const removeBbs = async (bbsId) => {
+    //     try {
+	// 		const response = await api.delete(`bbs/${bbsId}`);
+    //         console.log(response.data);
+    //         alert("게시글 삭제되었습니다.");
+    //         moveToHome();
+	// 	} catch (error) {
+	// 		console.error(error);
+	// 	}
+    // }
+	//spring version
+	const removeBbs = async (bbsId) => {
         try {
-			const response = await api.delete(`bbs/${bbsId}`);
-            console.log(response.data);
-            alert("게시글 삭제되었습니다.");
-            moveToHome();
+			if ( comList.length == 0 ){
+				const response = await api.delete(`bbs/delete/${bbsId}`);
+				console.log(response.data);
+				moveToHome();
+			} else {
+				alert("댓글이 존재하여 게시글을 삭제할 수 없습니다.");
+			}
+			console.log("debug >>> comments length " , comList.length);
+			// const response = await api.delete(`bbs/${bbsId}`);
+            // console.log(response.data);
+            // alert("게시글 삭제되었습니다.");
+            // moveToHome();
 		} catch (error) {
 			console.error(error);
 		}
