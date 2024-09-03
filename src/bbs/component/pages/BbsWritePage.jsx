@@ -40,17 +40,41 @@ function BbsWritePage(props) {
         alert("글 작성을 취소하고 홈으로 이동합니다.");
         navigate("/");
     }
+    // json-server 버전
+    // const submitHandler = async() => {
+    //     const data = {
+    //         id : Date.now(),
+    //         title : title,
+    //         content : content
+    //     }
+    //     try{
+    //         const response = await api.post("bbs",data);
+    //         console.log(response.data);
+    //         alert("글 작성 완료하고 홈으로 이동합니다.");
+    //         navigate("/");
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+        
+        
+    // }
+
+    //spring version
     const submitHandler = async() => {
         const data = {
-            id : Date.now(),
             title : title,
             content : content
         }
         try{
-            const response = await api.post("bbs",data);
-            console.log(response.data);
-            alert("글 작성 완료하고 홈으로 이동합니다.");
-            navigate("/");
+            const response = await api.post("bbs/save",data);
+            console.log("post response",response);
+            if ( response.status == 204 ){
+                alert("글 작성 완료하고 홈으로 이동합니다.");
+                navigate("/");
+            } else {
+                alert("데이터 저장 시 문제 발생")
+            }
+            
         } catch (error) {
             console.log(error);
         }

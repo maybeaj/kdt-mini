@@ -23,6 +23,11 @@ const TitleText = styled.p`
 
 function BbsItem(props) { 
     const navigate = useNavigate();
+    //json-server version
+    // const moveHandler = () => {
+    //     navigate(`bbs-view/${props.data.id}`);
+    // }
+    // spring 
     const moveHandler = () => {
         navigate(`bbs-view/${props.data.id}`);
     }

@@ -53,13 +53,26 @@ function BbsViewPage(props) {
 	};
 	useEffect(() => {
 		getBbs();
-        getComList();
+        //getComList();
 	}, []);
 
+	// json-server version
+	// const getBbs = async () => {
+	// 	try {
+	// 		const response = await api.get(`bbs/${id}`);
+	// 		setBbs(response.data);
+	// 	} catch (error) {
+	// 		console.error(error);
+	// 	}
+	// };
+
+	// spring version
 	const getBbs = async () => {
 		try {
-			const response = await api.get(`bbs/${id}`);
+			const response = await api.get(`bbs/view/${id}`);
+			console.log("debug >> axios get response data, ", response.data);
 			setBbs(response.data);
+			setComList(response.data.comments);
 		} catch (error) {
 			console.error(error);
 		}
