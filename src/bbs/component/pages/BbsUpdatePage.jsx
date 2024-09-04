@@ -50,12 +50,28 @@ function BbsUpdatePage(props) {
         alert("글 작성을 취소하고 홈으로 이동합니다.");
         navigate("/");
     }
-
+    //json-server ver
+    // const submitHandler = async() => {
+    //     const updatedData = { title : title,
+    //                         content : content};
+    //     try{
+    //         const response = await api.patch(`bbs/update/${id}`,updatedData);
+    //         console.log(response.data);
+    //         alert("글 수정 완료하고 홈으로 이동합니다.");
+    //         navigate("/");
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
+    // spring ver
     const submitHandler = async() => {
-        const updatedData = { title : title,
-                            content : content};
+
+        const updatedData = { 
+            id : id,
+            title : title,
+            content : content};
         try{
-            const response = await api.patch(`bbs/${id}`,updatedData);
+            const response = await api.put(`bbs/update/${id}`,updatedData);
             console.log(response.data);
             alert("글 수정 완료하고 홈으로 이동합니다.");
             navigate("/");
@@ -66,7 +82,7 @@ function BbsUpdatePage(props) {
 
     const fetchData = async () => {
         try {
-            const response = await api.get(`bbs/${id}`);
+            const response = await api.get(`bbs/view/${id}`);
             setTitle(response.data.title);
             setContent(response.data.content);
             setOriginalData({ title: response.data.title, content: response.data.content });
