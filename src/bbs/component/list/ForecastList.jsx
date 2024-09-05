@@ -16,11 +16,17 @@ const Wrapper = styled.div`
 
 function ForecastList(props) {
 	return (
+	
 		<Wrapper>
-			{props.data.map((forecast) => (
-				<ForecastItem data={forecast} />
-			))}
-		</Wrapper>
+		{props.data.length === 0 ? (
+			<ForecastItem data="예보가 존재하지 않습니다." />
+		) : (
+			props.data.map((forecast) => (
+				<ForecastItem 
+				data={forecast} />
+			))
+		)}
+	</Wrapper>
 	);
 }
 

@@ -20,17 +20,11 @@ const ContentText = styled.p`
 	white-space: pre-wrap;
 `;
 function ForecastItem(props){
-    const { baseDate, baseTime, beachNum, category, fcstDate, fcstTime, fcstValue } = props.data;
+    const { category, fcstValue } = props.data;
     return(
         <Wrapper>
             <ContentText>
-            <p>기준 날짜: {baseDate}</p>
-            <p>기준 시간: {baseTime}</p>
-            <p>해변 번호: {beachNum}</p>
-            <p>예보 날짜: {fcstDate}</p>
-            <p>예보 시간: {fcstTime}</p>
-            <p>카테고리: {category}</p>
-            <p>카테고리 값: {fcstValue}</p>
+            {category} - {fcstValue}
             </ContentText>
         </Wrapper>
     );
