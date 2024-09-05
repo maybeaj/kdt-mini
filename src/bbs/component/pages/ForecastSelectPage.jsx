@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Button from '../ui/Button';
 import { useNavigate } from 'react-router-dom';
 import api from '../api/axios';
+import ForecastList from '../list/ForecastList';
 
 const Wrapper = styled.div`
     padding: 16px;
@@ -28,6 +29,8 @@ function ForecastSelectPage(props) {
     const [ baseTime, setBaseTime ] = useState('');
     const [ baseDate, setBaseDate ] = useState('');
     const [ beachNum, setBeachNum ] = useState('');
+
+    const [ forecasts, setForecasts ] = useState([]);
 
     const baseTimeHandler = (e) => {
         setBaseTime(e.target.value);
@@ -59,13 +62,7 @@ function ForecastSelectPage(props) {
         try{
             const response = await api.get("api/forecast",data);
             console.log("get response",response);
-            if ( response.status == 200 ){
-                alert("검색완료하고 홈으로 이동합니다.");
-                navigate("/");
-            } else {
-                alert("검색 시 문제 발생")
-            }
-            
+            setForecasts(response.data); 
         } catch (error) {
             console.log(error);
         }
@@ -98,7 +95,9 @@ function ForecastSelectPage(props) {
                 &nbsp; &nbsp; &nbsp;
                 <Button title="검색 취소" onClick={cancelHandler}>
                 </Button>
-
+                <p/>
+                <ForecastList
+                    data={forecasts}/>
             </Container>
         </Wrapper>
     );
