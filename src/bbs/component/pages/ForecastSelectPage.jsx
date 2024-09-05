@@ -53,18 +53,20 @@ function ForecastSelectPage(props) {
     //spring version
     const submitHandler = async() => {
         const data = {
-            params: {
                 base_time: baseTime,
                 base_date: baseDate,
                 beach_num: beachNum
-            }
         }
         try{
-            const response = await api.get("api/forecast",data);
+            const response = await api.get("api/validate/forecast",{params :data});
             console.log("get response",response);
+            console.log("response status", response.status);
             setForecasts(response.data); 
         } catch (error) {
             console.log(error);
+            setBaseDate( error.response.data.base_date );
+            setBaseTime( error.response.data.base_time );
+            setBeachNum( error.response.data.beach_num );
         }
         
         
