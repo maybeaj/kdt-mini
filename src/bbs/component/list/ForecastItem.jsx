@@ -27,10 +27,11 @@ function ForecastItem(props){
             <p>기준 날짜: {baseDate}</p>
             <p>기준 시간: {baseTime}</p>
             <p>해변 번호: {beachNum}</p>
-            <p>카테고리: {category}</p>
             <p>예보 날짜: {fcstDate}</p>
             <p>예보 시간: {fcstTime}</p>
-            <p>온도: {fcstValue}</p></ContentText>
+            <p>카테고리: {category}</p>
+            <p>카테고리 값: {fcstValue}</p>
+            </ContentText>
         </Wrapper>
     );
 }
