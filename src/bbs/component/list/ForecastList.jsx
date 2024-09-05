@@ -15,19 +15,20 @@ const Wrapper = styled.div`
 `;
 
 function ForecastList(props) {
-	return (
-	
-		<Wrapper>
-		{props.data.length === 0 ? (
-			<ForecastItem data="예보가 존재하지 않습니다." />
-		) : (
-			props.data.map((forecast) => (
-				<ForecastItem 
-				data={forecast} />
-			))
-		)}
-	</Wrapper>
-	);
+    return (
+        <Wrapper>
+            {props.data.length === 0 ? (
+                <p>예보가 존재하지 않습니다.</p> // 예보가 없을 때 텍스트만 표시
+            ) : (
+                props.data.map((forecast, index) => (
+                    <ForecastItem 
+						key = { index }
+                        data={forecast} 
+                    />
+                ))
+            )}
+        </Wrapper>
+    );
 }
 
 export default ForecastList;
